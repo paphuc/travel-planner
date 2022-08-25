@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Personal Blog</title>
+    <meta
+      content="width=device-width, initial-scale=1, maximum-scale=1"
+      name="viewport"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link rel="stylesheet" href="/style/style.css" />
+
+    <link rel="stylesheet" href="/styles/resets.scss" />
+    <link rel="stylesheet" href="/styles/base.scss" />
+    <link rel="stylesheet" href="/styles/header.scss" />
+    <link rel="stylesheet" href="/styles/form.scss" />
+    <link rel="stylesheet" href="/styles/footer.scss" />
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="header item1">
+        <p>Travel Planner</p>
+      </div>
+      <div class="row">
+        <div class="item2">
+          <form class="" onsubmit="return handleSubmit(event)">
+            <input
+              id="place"
+              type="text"
+              name="input"
+              value=""
+              onblur="onBlur()"
+              placeholder="My trip to"
+              required
+            />
+            <input
+              id="departing"
+              type="date"
+              name="input"
+              value=""
+              onblur="onBlur()"
+              placeholder="Departing"
+              required
+            />
+            <input
+              type="submit"
+              name=""
+              value="submit"
+              onclick="return Client.handleSubmit(event)"
+              onsubmit="return handleSubmit(event)"
+            />
+          </form>
+        </div>
+        <div class="item3">
+          <strong>Plan</strong>
+          <div id="daysaway"></div>
+          <div id="temp"></div>
+          <div id="weather"></div>
+        </div>
+      </div>
+      <div class="item4">
+        <div class="footer box">
+          <p>
+            Phuc Pham<br />
+            <a href="mailto:paphuc@gmail.com ">paphuc@gmail.com</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+<script>
+  // Check that service workers are supported
+  if ("serviceWorker" in navigator) {
+    // Use the window load event to keep the page load performant
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("/service-worker.js");
+    });
+  }
+</script>
