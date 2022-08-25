@@ -1,6 +1,6 @@
 var path = require("path");
 const express = require("express");
-let morgan = require('morgan');
+let morgan = require("morgan");
 const withQuery = require("with-query").default;
 const fetch = require("node-fetch");
 const dotenv = require("dotenv");
@@ -16,9 +16,9 @@ const pixaBaseURL = "https://pixabay.com/api/";
 const cors = require("cors");
 
 const app = express();
-if(process.env.NODE_ENV !== 'test') {
+if (process.env.NODE_ENV !== "test") {
   //use morgan to log at command line
-  app.use(morgan('combined')); //'combined' outputs the Apache style LOGs
+  app.use(morgan("combined")); //'combined' outputs the Apache style LOGs
 }
 const bodyParser = require("body-parser");
 
@@ -53,7 +53,7 @@ const getData = async (url = "", data = {}) => {
 // cout days
 const countDays = (date_1, date_2) => {
   let diff = date_1.getTime() - date_2.getTime();
-  return  Math.ceil(diff / (1000 * 3600 * 24));
+  return Math.ceil(diff / (1000 * 3600 * 24));
 };
 
 app.get("/plan", async function (req, res) {
@@ -64,30 +64,36 @@ app.get("/plan", async function (req, res) {
     username: usr,
   });
 
-  // Get temp
-  let weatherURL = weatherBaseURL;
-  let date_1 = new Date(req.query.departing);
-  let date_2 = new Date();
-  if ( countDays(date_1, date_2) > 7) {
-    weatherURL = forecastURL;
+  if (geo["postalcodes"].length == 0) {
+    res.send({
+      err: "Unable to locate. Please choose another city",
+    });
+  } else {
+    // Get temp
+    let weatherURL = weatherBaseURL;
+    let date_1 = new Date(req.query.departing);
+    let date_2 = new Date();
+    if (countDays(date_1, date_2) > 7) {
+      weatherURL = forecastURL;
+    }
+    let weather = await getData(weatherURL, {
+      lat: geo["postalcodes"][0].lat,
+      lon: geo["postalcodes"][0].lng,
+      key: weatherKey,
+    });
+
+    // Get Image
+    let img = await getData(pixaBaseURL, {
+      key: picxaKey,
+      q: "city+" + req.query.city,
+      image_type: "photo",
+    });
+
+    res.send({
+      placeImage: img["hits"][0].webformatURL,
+      temp: weather["data"][0].temp,
+      daysaway: countDays(date_1, date_2),
+      weather: weather["data"][0].weather.description,
+    });
   }
-  let weather = await getData(weatherURL, {
-    lat: geo["postalcodes"][0].lat,
-    lon: geo["postalcodes"][0].lng,
-    key: weatherKey,
-  });
-
-  // Get Image
-  let img = await getData(pixaBaseURL, {
-    key: picxaKey,
-    q: "city+" + req.query.city,
-    image_type: "photo",
-  });
-
-  res.send({
-    placeImage: img["hits"][0].webformatURL,
-    temp: weather["data"][0].temp,
-    daysaway: countDays(date_1, date_2),
-    weather: weather["data"][0].weather.description,
-  });
 });

@@ -11,8 +11,6 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
     />
-    <link rel="stylesheet" href="/style/style.css" />
-
     <link rel="stylesheet" href="/styles/resets.scss" />
     <link rel="stylesheet" href="/styles/base.scss" />
     <link rel="stylesheet" href="/styles/header.scss" />
@@ -33,7 +31,6 @@
               type="text"
               name="input"
               value=""
-              onblur="onBlur()"
               placeholder="My trip to"
               required
             />
@@ -42,7 +39,6 @@
               type="date"
               name="input"
               value=""
-              onblur="onBlur()"
               placeholder="Departing"
               required
             />
@@ -60,6 +56,7 @@
           <div id="daysaway"></div>
           <div id="temp"></div>
           <div id="weather"></div>
+          <div id="err"></div>
         </div>
       </div>
       <div class="item4">
@@ -73,7 +70,7 @@
     </div>
   </body>
 </html>
-<script>
+<!-- <script>
   // Check that service workers are supported
   if ("serviceWorker" in navigator) {
     // Use the window load event to keep the page load performant
@@ -81,4 +78,4 @@
       navigator.serviceWorker.register("/service-worker.js");
     });
   }
-</script>
+</script> -->
