@@ -6,6 +6,7 @@ const WorkboxPlugin = require('workbox-webpack-plugin');
 module.exports = {
     entry: './src/client/index.js',
     mode: 'production',
+    stats: { children: false },
     module: {
         rules: [{
                 test: /\.js$/,
@@ -24,6 +25,5 @@ module.exports = {
             filename: "./index.html",
         }),
         new WorkboxPlugin.GenerateSW()
-
     ]
 }
